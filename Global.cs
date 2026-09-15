@@ -59,6 +59,7 @@ namespace rans0m
                         LoadBitmapImage("pack://application:,,,/Assets/Taunts/idiot_zh.png"),
                         LoadBitmapImage("pack://application:,,,/Assets/Taunts/tauntface.png"),
                         LoadBitmapImage("pack://application:,,,/Assets/Taunts/tauntflower.png"),
+                        LoadBitmapImage("pack://application:,,,/Assets/Taunts/tauntmeal.png"),
                     };
                 }
                 return _tauntImages;

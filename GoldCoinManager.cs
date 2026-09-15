@@ -34,6 +34,33 @@ namespace rans0m
         public static int GetValue(int extension) => ExtensionValues.GetValueOrDefault(extension, 10);
     }
 
+    /// <summary>
+    /// A coin (or crucifix) that was generated on disk and can be picked up
+    /// </summary>
+    public sealed class SpawnedCoin
+    {
+        /// <summary>0 for the crucifix, 1-6 for .gold1-.gold6</summary>
+        public int Type { get; init; }
+
+        /// <summary>Path of the generated file</summary>
+        public string Path { get; init; } = "";
+
+        public bool IsCrucifix => Type == 0;
+
+        public int Value => IsCrucifix ? 0 : CoinValues.GetValue(Type);
+    }
+
+    /// <summary>
+    /// Everything a single generation pass produced
+    /// </summary>
+    public sealed class CoinGeneration
+    {
+        public List<SpawnedCoin> Coins { get; } = new();
+
+        /// <summary>Total gold the generated coins are worth (honeypots and crucifixes excluded, as before)</summary>
+        public int GeneratedGold { get; set; }
+    }
+
     public static class GoldCoinManager
     {
         private const string RegistryPath = @"Software\RANSOM";
@@ -58,7 +85,7 @@ namespace rans0m
         /// <summary>
         /// Generate coins, chooses method based on config
         /// </summary>
-        public static int GenerateCoins()
+        public static CoinGeneration GenerateCoins()
         {
             return Config.UseDrawerMode ? GenerateFolderDrawerCoins() : GenerateScatteredCoins();
         }
@@ -68,17 +95,17 @@ namespace rans0m
         /// <summary>
         /// Scatters coins randomly across user folders
         /// </summary>
-        private static int GenerateScatteredCoins()
+        private static CoinGeneration GenerateScatteredCoins()
         {
+            CoinGeneration generation = new CoinGeneration();
             int targetGold = (int)(Config.RansomAmount * 1.2);
-            int generatedGold = 0;
             List<string> createdPaths = new List<string>();
             HashSet<string> touchedDirs = new HashSet<string>();
 
             // Gold Coins
             int maxAttempts = 500;
             int attempts = 0;
-            while (generatedGold < targetGold && attempts < maxAttempts)
+            while (generation.GeneratedGold < targetGold && attempts < maxAttempts)
             {
                 attempts++;
                 try
@@ -100,7 +127,8 @@ namespace rans0m
                     if (coinFile != null)
                     {
                         createdPaths.Add(coinFile);
-                        generatedGold += coinValue;
+                        generation.GeneratedGold += coinValue;
+                        generation.Coins.Add(new SpawnedCoin { Type = extension, Path = coinFile });
                     }
                 }
                 catch {}
@@ -121,7 +149,10 @@ namespace rans0m
 
                         string coinFile = CreateCoinFile(targetDir, 6);
                         if (coinFile != null)
+                        {
                             createdPaths.Add(coinFile);
+                            generation.Coins.Add(new SpawnedCoin { Type = 6, Path = coinFile });
+                        }
                     }
                 }
                 catch { }
@@ -142,7 +173,10 @@ namespace rans0m
 
                         string crucifixFile = CreateCrucifixFile(targetDir);
                         if (crucifixFile != null)
+                        {
                             createdPaths.Add(crucifixFile);
+                            generation.Coins.Add(new SpawnedCoin { Type = 0, Path = crucifixFile });
+                        }
                     }
                 }
                 catch { }
@@ -150,7 +184,7 @@ namespace rans0m
 
             AppendToRegistry(createdPaths);
             AppendDirsToRegistry(touchedDirs);
-            return generatedGold;
+            return generation;
         }
 
         private static int GetBalancedMaxSubfolderDepth() => Math.Clamp(2 + Config.InfectionDuration / 45, 2, 8);
@@ -202,10 +236,10 @@ namespace rans0m
         /// <summary>
         /// Creates a temporary folder structure
         /// </summary>
-        private static int GenerateFolderDrawerCoins()
+        private static CoinGeneration GenerateFolderDrawerCoins()
         {
+            CoinGeneration generation = new CoinGeneration();
             int targetGold = (int)(Config.RansomAmount * 1.2);
-            int generatedGold = 0;
             List<string> createdPaths = new List<string>();
             List<string> allDirs = new List<string>(); // Every drawer/item/subfolder dir made this pass
 
@@ -219,13 +253,13 @@ namespace rans0m
                 (int drawerCount, int itemsPerDrawer) = GetBalancedDrawerLayout();
 
                 // Coins and drawers
-                for (int drawer = 0; drawer < drawerCount && generatedGold < targetGold; drawer++)
+                for (int drawer = 0; drawer < drawerCount && generation.GeneratedGold < targetGold; drawer++)
                 {
                     string drawerPath = Path.Combine(temporaryFolderPath, GenerateRandomFolderName());
                     Directory.CreateDirectory(drawerPath);
                     allDirs.Add(drawerPath);
 
-                    for (int item = 0; item < itemsPerDrawer && generatedGold < targetGold; item++)
+                    for (int item = 0; item < itemsPerDrawer && generation.GeneratedGold < targetGold; item++)
                     {
                         string itemPath = Path.Combine(drawerPath, GenerateRandomFolderName());
                         Directory.CreateDirectory(itemPath);
@@ -251,7 +285,8 @@ namespace rans0m
                         if (coinFile != null)
                         {
                             createdPaths.Add(coinFile);
-                            generatedGold += coinValue;
+                            generation.GeneratedGold += coinValue;
+                            generation.Coins.Add(new SpawnedCoin { Type = extension, Path = coinFile });
                         }
                     }
                 }
@@ -264,7 +299,10 @@ namespace rans0m
                         string dir = allDirs[Global.rng.Next(allDirs.Count)];
                         string coinFile = CreateCoinFile(dir, 6);
                         if (coinFile != null)
+                        {
                             createdPaths.Add(coinFile);
+                            generation.Coins.Add(new SpawnedCoin { Type = 6, Path = coinFile });
+                        }
                     }
                     catch { }
                 }
@@ -277,7 +315,10 @@ namespace rans0m
                         string dir = allDirs[Global.rng.Next(allDirs.Count)];
                         string crucifixFile = CreateCrucifixFile(dir);
                         if (crucifixFile != null)
+                        {
                             createdPaths.Add(crucifixFile);
+                            generation.Coins.Add(new SpawnedCoin { Type = 0, Path = crucifixFile });
+                        }
                     }
                     catch { }
                 }
@@ -288,7 +329,7 @@ namespace rans0m
             }
             catch { }
 
-            return generatedGold;
+            return generation;
         }
 
         /// <summary>

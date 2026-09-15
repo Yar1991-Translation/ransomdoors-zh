@@ -6,11 +6,14 @@ namespace rans0m
 {
     public partial class RansomNotification : Window
     {
-        private DispatcherTimer _timer;
+        private readonly DispatcherTimer _timer;
+        private readonly List<SpawnedCoin> _coins;
 
-        public RansomNotification()
+        public RansomNotification(List<SpawnedCoin> coins)
         {
             InitializeComponent();
+
+            _coins = coins;
 
             _timer = new DispatcherTimer
             {
@@ -37,6 +40,9 @@ namespace rans0m
                 tauntWindow.Show();
             }
 
+            // Puts the collectible coins on screen
+            CoinSpawner.Start(_coins);
+
             Global.GlitchIdle(this, true);
         }
 
@@ -57,76 +63,19 @@ namespace rans0m
 
         private void Window_Drop(object sender, DragEventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (e.Data.GetData(DataFormats.FileDrop) is not string[] files) return;
 
             bool sfxPlayed = false; // Prevent multiple sfx to play when user drags multiple coins
             foreach (string file in files) // technically it's easily cheat but who cares
             {
-                string extension = Path.GetExtension(file);
-
-                if (extension.StartsWith(".gold"))
-                {
-                    try
-                    {
-                        int goldType = Int32.Parse(extension.Replace(".gold", ""));
-                        Dictionary<string, string> goldFileData = GoldCoinManager.DecryptCoinFile(file);
-
-                        if (goldFileData == null || !goldFileData.TryGetValue("RANSOM_COIN", out string coinId))
-                            continue; // Corrupt/foreign file
-
-                        if (!Global.usedCoins.Contains(coinId)) // If coin hasn't been used yet (to prevent peoples from just copy pasting coins
-                        {
-                            if (!sfxPlayed)
-                            {
-                                // Use the coin
-                                SoundHandle cashSfx = SoundHelper.Create(Global.GetResourceSteam("Sounds/cash.wav")); // Need to replace the sfx it's kinda trash
-                                cashSfx.Play();
-                                sfxPlayed = true;
-                            }
-
-                            Global.usedCoins.Add(coinId);
-                            Global.ransomLeft -= CoinValues.ExtensionValues[goldType];
-
-                            File.Delete(file);
-                        }
-                    }
-                    catch { }
-
-                }
-                else if (extension == ".crucifix")
-                {
-                    try
-                    {
-                        Dictionary<string, string> crucifixData = GoldCoinManager.DecryptCoinFile(file);
-
-                        if (crucifixData == null || !crucifixData.TryGetValue("RANSOM_COIN", out string coinId))
-                            continue; // Corrupt/foreign file
-
-                        if (!Global.usedCoins.Contains(coinId))
-                        {
-                            Global.usedCoins.Add(coinId);
-                            File.Delete(file);
-
-                            Global.crucifixUsed = true;
-                            Global.ransomLeft = 0;
-                        }
-                    }
-                    catch { }
-                }
+                if (Global.CollectFile(file, playSfx: !sfxPlayed) == CollectResult.Gold)
+                    sfxPlayed = true; // The sfx already played for this one
             }
 
             if (Global.ransomLeft <= 0)
             {
-                Global.underRansom = false;
-
-                if (Global.crucifixUsed)
-                    new CrucifixWindow(this.Left, this.Top).Show();
-                else
-                    new ThankYou(this.Left, this.Top).Show();
-
-                Close();
+                Global.CompleteRansom();
             }
-
         }
     }
 }

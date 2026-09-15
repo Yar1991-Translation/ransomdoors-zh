@@ -8,6 +8,16 @@ using WpfApplication = System.Windows.Application;
 
 namespace rans0m
 {
+    /// <summary>
+    /// What a collected coin file turned out to be
+    /// </summary>
+    public enum CollectResult
+    {
+        None,
+        Gold,
+        Crucifix
+    }
+
     public class Global
     {
         public static Overlay? overlayWindow;
@@ -124,6 +134,86 @@ namespace rans0m
             {
                 lastRegisteredMousePos = new System.Drawing.Point(-1, -1); // Invalidate the last registered mouse position if a key is pressed during the spy phase so it also triggers the ransom
             }
+        }
+
+        /// <summary>
+        /// Pays a coin/crucifix file into the ransom. Used both by the clickable coins on screen
+        /// and by files dragged onto the ransom window.
+        /// </summary>
+        /// <param name="file">Path of the .goldN/.crucifix file to collect</param>
+        /// <param name="playSfx">Whether to play the coin sfx (dropping several coins at once only needs one)</param>
+        /// <returns>What the file was, or None if it wasn't a valid/unused coin</returns>
+        public static CollectResult CollectFile(string file, bool playSfx = true)
+        {
+            string extension = Path.GetExtension(file);
+
+            if (extension.StartsWith(".gold"))
+            {
+                try
+                {
+                    int goldType = Int32.Parse(extension.Replace(".gold", ""));
+
+                    Dictionary<string, string>? coinData = GoldCoinManager.DecryptCoinFile(file);
+                    if (coinData == null || !coinData.TryGetValue("RANSOM_COIN", out string? coinId))
+                        return CollectResult.None; // Corrupt/foreign file
+
+                    if (usedCoins.Contains(coinId))
+                        return CollectResult.None; // this is to avoid people from copy pasting coins
+
+                    if (playSfx)
+                        SoundHelper.Create(GetResourceSteam("Sounds/cash.wav")).Play();
+
+                    usedCoins.Add(coinId);
+                    ransomLeft -= CoinValues.ExtensionValues[goldType];
+                    File.Delete(file);
+                    return CollectResult.Gold;
+                }
+                catch { return CollectResult.None; }
+            }
+
+            if (extension == ".crucifix")
+            {
+                try
+                {
+                    Dictionary<string, string>? crucifixData = GoldCoinManager.DecryptCoinFile(file);
+                    if (crucifixData == null || !crucifixData.TryGetValue("RANSOM_COIN", out string? coinId))
+                        return CollectResult.None; // Corrupt/foreign file
+
+                    if (usedCoins.Contains(coinId))
+                        return CollectResult.None;
+
+                    usedCoins.Add(coinId);
+                    File.Delete(file);
+
+                    crucifixUsed = true;
+                    ransomLeft = 0;
+                    return CollectResult.Crucifix;
+                }
+                catch { return CollectResult.None; }
+            }
+
+            return CollectResult.None;
+        }
+
+        /// <summary>
+        /// Wraps the ransom up: closes the ransom window and plays the thank you/crucifix animation.
+        /// Call once the ransom has been paid off.
+        /// </summary>
+        public static void CompleteRansom()
+        {
+            underRansom = false;
+            CoinSpawner.Stop();
+
+            RansomNotification? ransomWindow = WpfApplication.Current.Windows.OfType<RansomNotification>().FirstOrDefault();
+            double left = ransomWindow?.Left ?? 0;
+            double top = ransomWindow?.Top ?? 0;
+
+            if (crucifixUsed)
+                new CrucifixWindow(left, top).Show();
+            else
+                new ThankYou(left, top).Show();
+
+            ransomWindow?.Close();
         }
 
         /// <summary>

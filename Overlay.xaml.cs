@@ -176,6 +176,8 @@ namespace rans0m
                 tauntWindow.Close();
             }
 
+            CoinSpawner.Stop();
+
             redVignette.Opacity = 0;
             staticBg.Opacity = 0;
 
@@ -257,13 +259,13 @@ namespace rans0m
             bool mouseMoved = await RansomWarning();
             if (mouseMoved) // User moved the mouse
             {
-                int generatedGold = 0;
-                try { generatedGold = await Task.Run(() => GoldCoinManager.GenerateCoins()); }
+                CoinGeneration generation = new CoinGeneration();
+                try { generation = await Task.Run(() => GoldCoinManager.GenerateCoins()); }
                 catch { }
 
                 try
                 {
-                    if (generatedGold <= 0) // hopefully doesn't happen
+                    if (generation.GeneratedGold <= 0) // hopefully doesn't happen
                     {
                         await CrashJumpscare();
                     }
@@ -271,7 +273,7 @@ namespace rans0m
                     {
                         await DownloadJumpscare();
 
-                        if (await Ransomed(generatedGold)) // If user didn't pay the ransom in time
+                        if (await Ransomed(generation.GeneratedGold, generation.Coins)) // If user didn't pay the ransom in time
                         {
                             Global.underRansom = false;
                             await CrashJumpscare();
@@ -444,7 +446,8 @@ namespace rans0m
         /// Third phase of Ransom, the actual ransom, plays the music, shows the Ransomed window, etc...
         /// </summary>
         /// <param name="generatedGold">Total value of the coins actually generated on disk for this run</param>
-        public async Task<bool> Ransomed(int generatedGold)
+        /// <param name="coins">Every coin generated for this run, spawned as clickable coins on screen</param>
+        public async Task<bool> Ransomed(int generatedGold, List<SpawnedCoin> coins)
         {
             WallpaperUpdater.SetDarkRedWallpaper();
             CursorUpdater.SetInfectedCursor();
@@ -490,7 +493,7 @@ namespace rans0m
 
             _ = Dispatcher.BeginInvoke(() =>
             {
-                ransomNotification = new RansomNotification();
+                ransomNotification = new RansomNotification(coins);
                 ransomNotification.Show();
             }, DispatcherPriority.Normal);
 
@@ -535,6 +538,7 @@ namespace rans0m
                 ransomNotification.Close();
             }
 
+            CoinSpawner.Stop();
             redVignette.Opacity = 0;
             return true;
         }

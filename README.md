@@ -7,10 +7,12 @@ A fan-made recreation of the RANSOM (A-90) entity from the Roblox game
 your screen, you need to stop moving your mouse and stay off the keyboard, or it
 "infects" your PC: gold coin files (worth different amounts, `.gold1`-`.gold6`)
 get scattered around your user folders, your cursor changes, and your
-wallpaper turns dark red. You have to drag enough of them onto the ransom
-window to cover the configured ransom amount before the timer runs out.
-There's also a rare `.crucifix` file that, if found and dragged in, clears
-the ransom instantly.
+wallpaper turns dark red. So you can actually find them, the coins also float
+on top of everything on screen — click a coin to pay it in (dragging the real
+files onto the ransom window still works too) and cover the configured ransom
+amount before the timer runs out.
+There's also a rare `.crucifix` that clears the ransom instantly when you
+click it (or drag its file in).
 
 This was built for fun, it's kind of poorly coded.
 Right now the only noticable bug is that the ransom window doesn't always stay on top of other windows, but it should be fine for the most part. It can't go on top of fullscreen apps.

@@ -1,5 +1,7 @@
 # RANS0M
 
+[简体中文](README.zh-CN.md) | English
+
 A fan-made recreation of the RANSOM (A-90) entity from the Roblox game
 *Doors*, as a Windows desktop app. It randomly pops the entity's face up on
 your screen, you need to stop moving your mouse and stay off the keyboard, or it

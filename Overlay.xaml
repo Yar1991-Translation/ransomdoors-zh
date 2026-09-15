@@ -26,7 +26,7 @@
 
         <Viewbox x:Name="vb_download" Width="668" Height="88" Panel.ZIndex="1" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.RowSpan="2" Stretch="Uniform" StretchDirection="Both">
             <Grid Width="668" Height="88">
-                <Label x:Name="txt_download" Content="DOWNLOADING" HorizontalAlignment="Center" Foreground="White" FontSize="36" FontFamily="Consolas" Background="{x:Null}" Panel.ZIndex="1" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Normal"/>
+                <Label x:Name="txt_download" Content="下载中" HorizontalAlignment="Center" Foreground="White" FontSize="36" FontFamily="Microsoft YaHei UI" Background="{x:Null}" Panel.ZIndex="1" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Normal"/>
                 <Border x:Name="downloadProgressBar" BorderBrush="#000000" BorderThickness="3" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="669" Height="42">
                     <Border BorderBrush="#cc0000" BorderThickness="2">
                         <Grid Background="#0a0000">

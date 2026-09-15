@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:rans0m"
         mc:Ignorable="d"
-        Title="Configuration" Height="515" Width="302" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closed="Window_Closed">
+        Title="配置" Height="515" Width="302" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closed="Window_Closed" FontFamily="Microsoft YaHei UI">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -25,7 +25,7 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <TextBlock HorizontalAlignment="Left" Margin="118,34,0,0" TextWrapping="Wrap" Text="Ransom's Configuration" VerticalAlignment="Top" Height="68" Width="164" FontWeight="Bold" FontFamily="Nyala" FontSize="30">
+        <TextBlock HorizontalAlignment="Left" Margin="118,34,0,0" TextWrapping="Wrap" Text="RANSOM 的配置" VerticalAlignment="Top" Height="68" Width="164" FontWeight="Bold" FontFamily="Microsoft YaHei UI" FontSize="24">
             <TextBlock.Foreground>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FFFEDF77"/>
@@ -35,12 +35,12 @@
                 </LinearGradientBrush>
             </TextBlock.Foreground>
         </TextBlock>
-        <GroupBox HorizontalAlignment="Left" Height="136" Header="Behavior" Margin="13,118,0,0" VerticalAlignment="Top" Width="259" Foreground="White" RenderTransformOrigin="0.5,0.5"/>
-        <TextBlock HorizontalAlignment="Left" Height="18" Margin="23,158,0,0" TextWrapping="Wrap" Text="Minimum Delay" VerticalAlignment="Top" Width="115" Foreground="White"/>
-        <TextBox x:Name="tb_minSpawnDelay" HorizontalAlignment="Left" Height="22" Margin="23,176,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Width="115" MaxLines="1" MaxLength="6" local:NumericBehavior.NumericOnly="True"/>
-        <TextBlock HorizontalAlignment="Left" Height="18" Margin="147,158,0,0" TextWrapping="Wrap" Text="Maximum Delay" VerticalAlignment="Top" Width="115" Foreground="White"/>
-        <TextBox local:NumericBehavior.NumericOnly="True" x:Name="tb_maxSpawnDelay" HorizontalAlignment="Left" Height="22" Margin="147,176,0,0" TextWrapping="Wrap" Text="600" VerticalAlignment="Top" Width="115" MaxLines="1" MaxLength="6"/>
-        <TextBlock HorizontalAlignment="Left" Margin="103,453,0,0" TextWrapping="Wrap" Text="Made by Ixar" VerticalAlignment="Top" Height="18" Width="79" FontSize="16" FontWeight="Bold" FontFamily="Nyala">
+        <GroupBox HorizontalAlignment="Left" Height="136" Header="行为" Margin="13,118,0,0" VerticalAlignment="Top" Width="259" Foreground="White" RenderTransformOrigin="0.5,0.5"/>
+        <TextBlock HorizontalAlignment="Left" Height="18" Margin="23,158,0,0" TextWrapping="Wrap" Text="最短间隔" VerticalAlignment="Top" Width="115" Foreground="White"/>
+        <TextBox x:Name="tb_minSpawnDelay" HorizontalAlignment="Left" Height="22" Margin="23,176,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Width="115" MaxLines="1" MaxLength="6" FontFamily="Segoe UI" local:NumericBehavior.NumericOnly="True"/>
+        <TextBlock HorizontalAlignment="Left" Height="18" Margin="147,158,0,0" TextWrapping="Wrap" Text="最长间隔" VerticalAlignment="Top" Width="115" Foreground="White"/>
+        <TextBox local:NumericBehavior.NumericOnly="True" x:Name="tb_maxSpawnDelay" HorizontalAlignment="Left" Height="22" Margin="147,176,0,0" TextWrapping="Wrap" Text="600" VerticalAlignment="Top" Width="115" MaxLines="1" MaxLength="6" FontFamily="Segoe UI"/>
+        <TextBlock HorizontalAlignment="Left" Margin="103,453,0,0" TextWrapping="Wrap" Text="作者：Ixar" VerticalAlignment="Top" Height="18" Width="120" FontSize="16" FontWeight="Bold" FontFamily="Microsoft YaHei UI">
             <TextBlock.Foreground>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF4200FF"/>
@@ -50,18 +50,18 @@
                 </LinearGradientBrush>
             </TextBlock.Foreground>
         </TextBlock>
-        <GroupBox HorizontalAlignment="Left" Height="89" Header="Death Consequences" Margin="13,255,0,0" VerticalAlignment="Top" Width="259" Foreground="White" RenderTransformOrigin="0.5,0.5"/>
-        <TextBox x:Name="tb_cmd" HorizontalAlignment="Left" Height="20" Margin="23,314,0,0" TextWrapping="Wrap" Text="shutdown /s /t 0" VerticalAlignment="Top" Width="242" MaxLines="1" MaxLength="500" IsEnabled="False"/>
-        <CheckBox x:Name="cb_cmdOnDeath" Content="Custom command on death" HorizontalAlignment="Left" Margin="23,296,0,0" VerticalAlignment="Top" Foreground="White" Click="cb_cmdOnDeath_Click"/>
-        <CheckBox x:Name="cb_crashOnDeath" Content="Crash on death" HorizontalAlignment="Left" Margin="23,275,0,0" VerticalAlignment="Top" Foreground="White"/>
-        <GroupBox HorizontalAlignment="Left" Height="100" Header="Coins" Margin="13,344,0,0" VerticalAlignment="Top" Width="259" Foreground="White" RenderTransformOrigin="0.5,0.5"/>
-        <RadioButton x:Name="rb_userFolderMode" Content="Spawns in your own folders" HorizontalAlignment="Left" Margin="23,361,0,0" VerticalAlignment="Top" GroupName="CoinsMode" Foreground="White"/>
-        <RadioButton x:Name="rb_drawerMode" Content="Spawns in &quot;drawers&quot;" HorizontalAlignment="Left" Margin="23,381,0,0" VerticalAlignment="Top" GroupName="CoinsMode" Foreground="White"/>
-        <TextBlock HorizontalAlignment="Left" Height="19" Margin="23,397,0,0" TextWrapping="Wrap" Text="Ransom Amount" VerticalAlignment="Top" Width="122" Foreground="White"/>
-        <TextBox x:Name="tb_ransomAmount" HorizontalAlignment="Left" Height="21" Margin="23,416,0,0" TextWrapping="Wrap" Text="500" VerticalAlignment="Top" Width="242" MaxLines="1" MaxLength="7" local:NumericBehavior.NumericOnly="True"/>
-        <TextBlock HorizontalAlignment="Left" Height="19" Margin="23,204,0,0" TextWrapping="Wrap" Text="Ransom Duration" VerticalAlignment="Top" Width="122" Foreground="White"/>
-        <TextBox x:Name="tb_duration" HorizontalAlignment="Left" Height="21" Margin="23,223,0,0" TextWrapping="Wrap" Text="90" VerticalAlignment="Top" Width="115" MaxLines="1" MaxLength="5" local:NumericBehavior.NumericOnly="True"/>
-        <CheckBox x:Name="cb_spawnAutomatically" Content="Spawn Automatically" HorizontalAlignment="Left" Margin="23,140,0,0" VerticalAlignment="Top" Foreground="White" Click="cb_spawnAutomatically_Click"/>
-        <Button x:Name="btn_spawn" Content="Spawn" HorizontalAlignment="Left" Height="21" Margin="147,223,0,0" VerticalAlignment="Top" Width="115" Background="White" Click="btn_spawn_Click"/>
+        <GroupBox HorizontalAlignment="Left" Height="89" Header="死亡后果" Margin="13,255,0,0" VerticalAlignment="Top" Width="259" Foreground="White" RenderTransformOrigin="0.5,0.5"/>
+        <TextBox x:Name="tb_cmd" HorizontalAlignment="Left" Height="20" Margin="23,314,0,0" TextWrapping="Wrap" Text="shutdown /s /t 0" VerticalAlignment="Top" Width="242" MaxLines="1" MaxLength="500" IsEnabled="False" FontFamily="Segoe UI"/>
+        <CheckBox x:Name="cb_cmdOnDeath" Content="失败时执行自定义命令" HorizontalAlignment="Left" Margin="23,296,0,0" VerticalAlignment="Top" Foreground="White" Click="cb_cmdOnDeath_Click"/>
+        <CheckBox x:Name="cb_crashOnDeath" Content="失败时关机" HorizontalAlignment="Left" Margin="23,275,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <GroupBox HorizontalAlignment="Left" Height="100" Header="金币" Margin="13,344,0,0" VerticalAlignment="Top" Width="259" Foreground="White" RenderTransformOrigin="0.5,0.5"/>
+        <RadioButton x:Name="rb_userFolderMode" Content="生成在你自己的文件夹" HorizontalAlignment="Left" Margin="23,361,0,0" VerticalAlignment="Top" GroupName="CoinsMode" Foreground="White"/>
+        <RadioButton x:Name="rb_drawerMode" Content="生成在“抽屉”里" HorizontalAlignment="Left" Margin="23,381,0,0" VerticalAlignment="Top" GroupName="CoinsMode" Foreground="White"/>
+        <TextBlock HorizontalAlignment="Left" Height="19" Margin="23,397,0,0" TextWrapping="Wrap" Text="赎金金额" VerticalAlignment="Top" Width="122" Foreground="White"/>
+        <TextBox x:Name="tb_ransomAmount" HorizontalAlignment="Left" Height="21" Margin="23,416,0,0" TextWrapping="Wrap" Text="500" VerticalAlignment="Top" Width="242" MaxLines="1" MaxLength="7" FontFamily="Segoe UI" local:NumericBehavior.NumericOnly="True"/>
+        <TextBlock HorizontalAlignment="Left" Height="19" Margin="23,204,0,0" TextWrapping="Wrap" Text="赎金时限" VerticalAlignment="Top" Width="122" Foreground="White"/>
+        <TextBox x:Name="tb_duration" HorizontalAlignment="Left" Height="21" Margin="23,223,0,0" TextWrapping="Wrap" Text="90" VerticalAlignment="Top" Width="115" MaxLines="1" MaxLength="5" FontFamily="Segoe UI" local:NumericBehavior.NumericOnly="True"/>
+        <CheckBox x:Name="cb_spawnAutomatically" Content="自动出现" HorizontalAlignment="Left" Margin="23,140,0,0" VerticalAlignment="Top" Foreground="White" Click="cb_spawnAutomatically_Click"/>
+        <Button x:Name="btn_spawn" Content="立即触发" HorizontalAlignment="Left" Height="21" Margin="147,223,0,0" VerticalAlignment="Top" Width="115" Background="White" Click="btn_spawn_Click"/>
     </Grid>
 </Window>

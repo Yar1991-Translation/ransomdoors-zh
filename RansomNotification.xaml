@@ -13,12 +13,12 @@
             <RowDefinition Height="0*"/>
         </Grid.RowDefinitions>
         <Image HorizontalAlignment="Left" Height="188" Margin="28,12,0,0" VerticalAlignment="Top" Width="188" Source="/Assets/ransom_idle.png"/>
-        <TextBlock HorizontalAlignment="Left" Margin="233,9,0,0" TextWrapping="Wrap" Text="YOUR FILES HAVE BEEN ENCRYPTED" VerticalAlignment="Top" Foreground="White" FontSize="44" FontFamily="Consolas" FontWeight="Bold" Width="267" Height="154" TextAlignment="Center"/>
-        <TextBlock HorizontalAlignment="Left" Margin="12,166,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Foreground="White" FontSize="25" FontFamily="Consolas" Width="520" Height="109" TextAlignment="Center" Background="Black" Padding="0,10,0,0">
-            <Run Text="IF YOU DO NOT PAY THIS RANSOM BEFORE THE TIMER ENDS, YOUR FILES WILL BE " Foreground="White"/>
-            <Run Text="UNRECOVERABLE BY ANY MEANS." Foreground="Red"/>
+        <TextBlock HorizontalAlignment="Left" Margin="233,9,0,0" TextWrapping="Wrap" Text="你的文件已被加密" VerticalAlignment="Top" Foreground="White" FontSize="36" FontFamily="Microsoft YaHei UI" FontWeight="Bold" Width="267" Height="154" TextAlignment="Center"/>
+        <TextBlock HorizontalAlignment="Left" Margin="12,166,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Foreground="White" FontSize="25" FontFamily="Microsoft YaHei UI" Width="520" Height="109" TextAlignment="Center" Background="Black" Padding="0,10,0,0">
+            <Run Text="若未在倒计时结束前支付赎金，你的文件将" Foreground="White"/>
+            <Run Text="无法以任何方式恢复。" Foreground="Red"/>
         </TextBlock>
-        <TextBlock x:Name="txt_timer" HorizontalAlignment="Left" Margin="218,286,0,0" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Text="TIME: 00:00" VerticalAlignment="Top" Foreground="Black" FontSize="46" FontFamily="Consolas" FontWeight="Bold" Width="314" Height="61" TextAlignment="Center" Background="Red"/>
+        <TextBlock x:Name="txt_timer" HorizontalAlignment="Left" Margin="218,286,0,0" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Text="剩余时间 00:00" VerticalAlignment="Top" Foreground="Black" FontSize="34" FontFamily="Microsoft YaHei UI" FontWeight="Bold" Width="314" Height="61" TextAlignment="Center" Background="Red"/>
         <Border BorderBrush="#FFFFCF25" BorderThickness="2,2,2,2" HorizontalAlignment="Left" Height="62" Margin="12,286,0,0" VerticalAlignment="Top" Width="189" Background="Black"/>
         <TextBlock x:Name="txt_ransomLeft" HorizontalAlignment="Left" Margin="20,288,0,0" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Text="500" VerticalAlignment="Top" Foreground="#FFFFCF25" FontSize="48" FontFamily="Consolas" FontWeight="Bold" Width="171" Height="59"/>
         <Image HorizontalAlignment="Left" Height="58" Margin="133,288,0,0" VerticalAlignment="Top" Width="59" Source="/Assets/Gold.png"/>

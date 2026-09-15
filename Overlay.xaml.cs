@@ -105,8 +105,8 @@ namespace rans0m
         {
             ContextMenuStrip trayMenu = new ContextMenuStrip();
 
-            trayMenu.Items.Add("Configuration").Click += (s, e) => new ConfigWindow().Show();
-            trayMenu.Items.Add("Close").Click += (s, e) => WpfApplication.Current.Shutdown();
+            trayMenu.Items.Add("配置").Click += (s, e) => new ConfigWindow().Show();
+            trayMenu.Items.Add("退出").Click += (s, e) => WpfApplication.Current.Shutdown();
 
             trayIcon = new NotifyIcon
             {
@@ -383,16 +383,16 @@ namespace rans0m
             {
                 while (effect)
                 {
-                    txt_download.Content = "DOWNLOADING";
+                    txt_download.Content = "下载中";
                     txt_download.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
                     await Task.Delay(120);
-                    txt_download.Content = "DOWNLOADING.";
+                    txt_download.Content = "下载中.";
                     await Task.Delay(120);
-                    txt_download.Content = "DOWNLOADING..";
+                    txt_download.Content = "下载中..";
                     await Task.Delay(120);
-                    txt_download.Content = "DOWNLOADING...";
+                    txt_download.Content = "下载中...";
                     await Task.Delay(120);
-                    txt_download.Content = "DOWNLOADING";
+                    txt_download.Content = "下载中";
                     txt_download.Foreground = new SolidColorBrush(Color.FromRgb(255, 0, 0));
                     await Task.Delay(120);
                 }

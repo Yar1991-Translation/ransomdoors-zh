@@ -27,7 +27,7 @@ namespace rans0m
             Global.HideSystemMenu(this);
 
             // Init the window
-            txt_timer.Text = $"TIME: {Global.ransomTimeLeft / 60:D2}:{Global.ransomTimeLeft % 60:D2}";
+            txt_timer.Text = $"剩余时间 {Global.ransomTimeLeft / 60:D2}:{Global.ransomTimeLeft % 60:D2}";
             Global.RandomPosWindow(this);
 
             // Init 9 taunt windows
@@ -43,7 +43,7 @@ namespace rans0m
         private void Timer_Tick(object sender, EventArgs e)
         {
             txt_ransomLeft.Text = Global.ransomLeft.ToString();
-            txt_timer.Text = $"TIME: {Global.ransomTimeLeft / 60:D2}:{Global.ransomTimeLeft % 60:D2}";
+            txt_timer.Text = $"剩余时间 {Global.ransomTimeLeft / 60:D2}:{Global.ransomTimeLeft % 60:D2}";
         }
 
         private void Window_DragEnter(object sender, DragEventArgs e)

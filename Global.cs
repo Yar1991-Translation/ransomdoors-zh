@@ -46,7 +46,7 @@ namespace rans0m
                         LoadBitmapImage("pack://application:,,,/Assets/Taunts/glitch3.jpg"),
                         LoadBitmapImage("pack://application:,,,/Assets/Taunts/glitch4.jpg"),
                         LoadBitmapImage("pack://application:,,,/Assets/Taunts/glitch5.jpg"),
-                        LoadBitmapImage("pack://application:,,,/Assets/Taunts/idiot.png"),
+                        LoadBitmapImage("pack://application:,,,/Assets/Taunts/idiot_zh.png"),
                         LoadBitmapImage("pack://application:,,,/Assets/Taunts/tauntface.png"),
                         LoadBitmapImage("pack://application:,,,/Assets/Taunts/tauntflower.png"),
                     };
